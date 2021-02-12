@@ -18,6 +18,7 @@ Behavior analysis in VT shows:
 
 
 We continue by throwing the sample in tria.ge.
+The output is now available at https://tria.ge/210205-gl47gj2jfx
 
 We notice a pop-up window saying "Uh-oh hacked!"
 
