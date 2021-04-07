@@ -107,7 +107,7 @@ Clear signs of RunPE injection
 
 by breaking on VirtualAlloc and comparing to what we have in ResoureHacker, we quickly see the resource is loaded at offset 1C. Shortly before, we notice an add eax,1c after the call to sizeofresource. 
 
-We see it's decrypted as RC4 with the first 1C bytes as a key. Keeping our breakpoint on VirtualAlloc and keeping it running allows us to dump stage2.
+We see it's decrypted as C4 with the first 1C bytes as a key. Keeping our breakpoint on VirtualAlloc and keeping it running allows us to dump stage2.
 
 Stage2 at a glance looks very similar but out crypto scanner tools indicate CRC32.
 Browsing to the VA indicated by Kanal in IDA, we see:
@@ -151,7 +151,15 @@ We then enter a loop that tries to locate the string cruloader in reverse in the
 
 A decryption loop is entered which decrypts an MZ block by block. it looks like the block size is 0x40
 Looking at the key and chucking it in cyberchef, we quickly realize it's a simple xor operation.
-We dump the PE and notice it's a simple MessageBox
+We dump the PE and notice it's a simple call to MessageBox.
+
+To automate extraction I went withthe python pefile library.
+
+
+Printing the address where .rsrc starts, we see -> PointerToRawData: 0x12E00
+However, in ResHacker, we see the resource starts at offset 0x60
+
+We previously wrote our RC4 decrypt function
 
 https://medium.com/@duzvik/scripting-with-cutter-and-jupyter-notebooks-79d588e5fbb5
 
